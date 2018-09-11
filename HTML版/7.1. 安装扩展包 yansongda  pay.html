@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <meta name="baidu-site-verification" content="MfC8ppEukL" />
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="jnnAHjhrMbBNf1Kel960taBKAkYKAg1Leg3OBJXW">
+
+    <title>7.1. 安装扩展包 yansongda/pay | 《L05 Laravel 教程 - 电商实战》 | Laravel 实战教程
+    </title>
+
+    <meta name="author" content="Summer" />
+    <meta name="description" content="支付 上一章我们已经实现了订单的创建，接下来我们要实现支付功能，这也是电商系统的核心功能。 1. 引入支付库 yansongda/pay 这个库封装了支付宝和微信支付的接口，通过这个库我们就不需要去关注不同支付平台的接口...
+" />
+    <meta name="keywords" content="laravel教程,laravel书籍,laravel入门,laravel示例,laravel课程,laravel培训,php教程,php书籍" />
+
+    <link rel="shortcut icon" href="https://lccdn.phphub.org/uploads/sites/KDiyAbV0hj1ytHpRTOlVpucbLebonxeX.png"/>
+
+    <!-- Styles -->
+    <link href="https://lccdn.phphub.org//build/css/93467b0169c8358e5afc-app.css" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script>
+        window.Laravel = {"csrfToken":"jnnAHjhrMbBNf1Kel960taBKAkYKAg1Leg3OBJXW"}    </script>
+
+    <script>
+        window.Config = {
+            'user_id': 27464,
+            'request_interval': 50000, // 消息通知检测周期
+            'notification_count': 0,
+            'token': 'jnnAHjhrMbBNf1Kel960taBKAkYKAg1Leg3OBJXW',
+            'environment': 'production',
+            'url': 'https://laravel-china.org',
+            'routes': {
+                'notificationsCount' : 'https://laravel-china.org/notifications/count',
+                'upload_image' : 'https://laravel-china.org/courses/upload_image',
+                'api_search' : 'https://laravel-china.org/courses/api_search'
+            },
+            'cdnDomain': 'https://lccdn.phphub.org/',
+            'following_users': [],
+            'search_type': 'standard',
+            'book_id': 41,
+            'is_docs': "no",
+            'article_id': 1567,
+        };
+
+        var ShowCrxHint = 'no';
+    </script>
+
+    <style>
+
+        .ui.top.menu {
+            border-top: 4px solid #f46660;
+        }
+
+        .ui.fluid.search .results {
+            width: 550px;
+        }
+
+        @media  only screen and (max-width: 767px) {
+            .ui.top.menu > .ui.container {
+                height: 52px;
+                flex-direction: initial;
+            }
+        }
+
+
+    </style>
+
+</head>
+<body class=" books-articles-show-page">
+
+<div class="ui vertical sidebar menu left" style="z-index: 99999">
+    <div class="item">
+        <b>L05 Laravel 教程 - 电商实战</b>
+    </div>
+
+
+
+    <div class="item">
+        <div class="header">
+            第一章. 基础信息
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1530" href="https://laravel-china.org/courses/laravel-shop/1530/preface">
+
+                1.1. 序言
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1531" href="https://laravel-china.org/courses/laravel-shop/1531/about-the-author">
+
+                1.2. 关于作者
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1532" href="https://laravel-china.org/courses/laravel-shop/1532/how-to-read-the-book-correctly">
+
+                1.3. 践行至上
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1533" href="https://laravel-china.org/courses/laravel-shop/1533/writing-agreement">
+
+                1.4. 写作约定
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1534" href="https://laravel-china.org/courses/laravel-shop/1534/issuance-of-instructions">
+
+                1.5. 发行说明
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1535" href="https://laravel-china.org/courses/laravel-shop/1535/the-source-code-of-this-book">
+
+                1.6. 本书源码
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1536" href="https://laravel-china.org/courses/laravel-shop/1536/feedback-error-correction">
+
+                1.7. 反馈纠错
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1537" href="https://laravel-china.org/courses/laravel-shop/1537/common-problem">
+
+                1.8. 常见问题
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第二章. 舞台布置
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1540" href="https://laravel-china.org/courses/laravel-shop/1540/development-environment">
+
+                2.1. 开发环境
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1544" href="https://laravel-china.org/courses/laravel-shop/1544/module-division">
+
+                2.2. 需求分析
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1672" href="https://laravel-china.org/courses/laravel-shop/1672/development-of-electric-business-project">
+
+                2.3. 开发思路
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1543" href="https://laravel-china.org/courses/laravel-shop/1543/create-applications">
+
+                2.4. 创建应用
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1579" href="https://laravel-china.org/courses/laravel-shop/1579/auxiliary-function">
+
+                2.5. 辅助函数
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1578" href="https://laravel-china.org/courses/laravel-shop/1578/basic-layout">
+
+                2.6. 基础布局
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1709" href="https://laravel-china.org/courses/laravel-shop/1709/summary">
+
+                2.7. 小结
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第三章. 用户模块
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1545" href="https://laravel-china.org/courses/laravel-shop/1545/registration-and-login">
+
+                3.1. 注册与登录
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1546" href="https://laravel-china.org/courses/laravel-shop/1546/verifying-mailbox">
+
+                3.2. 验证邮箱（上）
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1584" href="https://laravel-china.org/courses/laravel-shop/1584/verification-mailbox-below">
+
+                3.3. 验证邮箱（下）
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1565" href="https://laravel-china.org/courses/laravel-shop/1565/exceptions">
+
+                3.4. 优雅地处理异常
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1547" href="https://laravel-china.org/courses/laravel-shop/1547/list-of-receiving-addresses">
+
+                3.5. 收货地址列表
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1585" href="https://laravel-china.org/courses/laravel-shop/1585/new-receiving-address">
+
+                3.6. 新建收货地址
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1586" href="https://laravel-china.org/courses/laravel-shop/1586/modifying-and-deleting-the-receiving-address">
+
+                3.7. 修改和删除收货地址
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1710" href="https://laravel-china.org/courses/laravel-shop/1710/summary">
+
+                3.8. 小结
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第四章. 管理后台
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1568" href="https://laravel-china.org/courses/laravel-shop/1568/install-the-encorelaravel-admin-extension-package">
+
+                4.1. 安装 laravel-admin 扩展包
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1588" href="https://laravel-china.org/courses/laravel-shop/1588/user-list">
+
+                4.2. 用户列表
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1589" href="https://laravel-china.org/courses/laravel-shop/1589/permissions-settings">
+
+                4.3. 权限设置
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1711" href="https://laravel-china.org/courses/laravel-shop/1711/summary">
+
+                4.4. 小结
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第五章. 商品模块
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1746" href="https://laravel-china.org/courses/laravel-shop/1746/product-model">
+
+                5.1. 商品的数据结构设计
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1552" href="https://laravel-china.org/courses/laravel-shop/1552/list-of-goods">
+
+                5.2. 后台商品列表
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1551" href="https://laravel-china.org/courses/laravel-shop/1551/managing-the-background-create-and-edit-goods">
+
+                5.3. 后台创建和编辑商品
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1559" href="https://laravel-china.org/courses/laravel-shop/1559/user-interface-a-list-of-goods">
+
+                5.4. 商品列表页面
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1660" href="https://laravel-china.org/courses/laravel-shop/1660/commodity-screening-and-sorting">
+
+                5.5. 商品筛选、排序
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1595" href="https://laravel-china.org/courses/laravel-shop/1595/user-interface-commodity-details-page">
+
+                5.6. 商品详情页
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1562" href="https://laravel-china.org/courses/laravel-shop/1562/collection-of-goods">
+
+                5.7. 收藏商品
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1596" href="https://laravel-china.org/courses/laravel-shop/1596/user-interface-collection-of-goods-list">
+
+                5.8. 收藏商品列表
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1712" href="https://laravel-china.org/courses/laravel-shop/1712/summary">
+
+                5.9. 小结
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第六章. 购物车 &amp; 订单模块
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1557" href="https://laravel-china.org/courses/laravel-shop/1557/add-goods-to-a-shopping-cart">
+
+                6.1. 添加商品到购物车
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1664" href="https://laravel-china.org/courses/laravel-shop/1664/look-at-the-shopping-cart">
+
+                6.2. 查看购物车
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1558" href="https://laravel-china.org/courses/laravel-shop/1558/create-an-order">
+
+                6.3. 订单的数据模型
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1703" href="https://laravel-china.org/courses/laravel-shop/1703/shopping-cart-under-a-single-page">
+
+                6.4. 购物车下单页面
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1667" href="https://laravel-china.org/courses/laravel-shop/1667/closing-the-unpaid-order">
+
+                6.5. 关闭未支付订单
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1560" href="https://laravel-china.org/courses/laravel-shop/1560/user-interface-order-list">
+
+                6.6. 用户订单列表
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1669" href="https://laravel-china.org/courses/laravel-shop/1669/user-interface-order-details-page">
+
+                6.7. 用户订单详情页
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1748" href="https://laravel-china.org/courses/laravel-shop/1748/encapsulation-business-code">
+
+                6.8. 封装业务代码
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1714" href="https://laravel-china.org/courses/laravel-shop/1714/summary">
+
+                6.9. 小结
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第七章. 支付模块
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item active article-position-1567" href="https://laravel-china.org/courses/laravel-shop/1567/install-the-extension-package-yansongda-pay">
+
+                7.1. 安装扩展包 yansongda/pay
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1549" href="https://laravel-china.org/courses/laravel-shop/1549/alipay-to-pay">
+
+                7.2. 集成支付宝
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1704" href="https://laravel-china.org/courses/laravel-shop/1704/order-payment">
+
+                7.3. 订单的支付宝支付
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1550" href="https://laravel-china.org/courses/laravel-shop/1550/wechat-payment">
+
+                7.4. 集成微信支付
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1705" href="https://laravel-china.org/courses/laravel-shop/1705/wechat-payment-for-order">
+
+                7.5. 订单的微信支付
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1602" href="https://laravel-china.org/courses/laravel-shop/1602/perfect-the-logic-after-payment">
+
+                7.6. 完善支付后逻辑
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1715" href="https://laravel-china.org/courses/laravel-shop/1715/summary">
+
+                7.7. 小结
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第八章. 完善订单模块
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1561" href="https://laravel-china.org/courses/laravel-shop/1561/management-backstage-order-list">
+
+                8.1. 管理后台 - 订单列表
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1675" href="https://laravel-china.org/courses/laravel-shop/1675/management-backstage-order-details">
+
+                8.2. 管理后台 - 订单详情
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1555" href="https://laravel-china.org/courses/laravel-shop/1555/delivery-and-confirmation-of-receipt">
+
+                8.3. 管理后台 - 订单发货
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1676" href="https://laravel-china.org/courses/laravel-shop/1676/user-interface-confirm-receipt">
+
+                8.4. 用户界面 - 确认收货
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1630" href="https://laravel-china.org/courses/laravel-shop/1630/evaluation-of-goods">
+
+                8.5. 评价商品
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1556" href="https://laravel-china.org/courses/laravel-shop/1556/user-interface-application-refund">
+
+                8.6. 用户界面 - 申请退款
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1677" href="https://laravel-china.org/courses/laravel-shop/1677/managing-backstage-processing-refunds">
+
+                8.7. 管理后台 - 拒绝退款
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1679" href="https://laravel-china.org/courses/laravel-shop/1679/admin-agreed-to-refund-alipay">
+
+                8.8. 管理后台 - 同意退款（支付宝）
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1680" href="https://laravel-china.org/courses/laravel-shop/1680/management-backstage-approval-of-a-refund-wechat">
+
+                8.9. 管理后台 - 同意退款（微信）
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1716" href="https://laravel-china.org/courses/laravel-shop/1716/summary">
+
+                8.10. 小结
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第九章. 优惠券模块
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1681" href="https://laravel-china.org/courses/laravel-shop/1681/management-backstage-coupon-management">
+
+                9.1. 管理后台 - 优惠券列表
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1682" href="https://laravel-china.org/courses/laravel-shop/1682/manage-the-backstage-add-and-edit-coupons">
+
+                9.2. 管理后台 - 添加、修改、删除优惠券
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1683" href="https://laravel-china.org/courses/laravel-shop/1683/user-interface-use-coupons">
+
+                9.3. 用户界面 - 检查优惠券
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1684" href="https://laravel-china.org/courses/laravel-shop/1684/user-interface-using-coupons">
+
+                9.4. 用户界面 - 使用优惠券下单
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1707" href="https://laravel-china.org/courses/laravel-shop/1707/optimizes-the-coupon-module">
+
+                9.5. 优化优惠券模块
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1718" href="https://laravel-china.org/courses/laravel-shop/1718/summary">
+
+                9.6. 小结
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第十章. 杂项
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1685" href="https://laravel-china.org/courses/laravel-shop/1685/configure-the-background-permissions">
+
+                10.1. 配置后台权限
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1687" href="https://laravel-china.org/courses/laravel-shop/1687/perfect-false-data-filling">
+
+                10.2. 完善假数据填充
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1708" href="https://laravel-china.org/courses/laravel-shop/1708/back-up-management-of-backstage-data">
+
+                10.3. 备份管理后台数据
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1717" href="https://laravel-china.org/courses/laravel-shop/1717/system-safety">
+
+                10.4. 系统安全
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1721" href="https://laravel-china.org/courses/laravel-shop/1721/summary">
+
+                10.5. 小结
+            </a>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="header">
+            第十一章. 附录
+        </div>
+
+        <div class="menu article">
+
+
+            <a class="item  article-position-1747" href="https://laravel-china.org/courses/laravel-shop/1747/summary">
+
+                11.1. 全书总结
+            </a>
+
+
+
+
+
+            <a class="item  article-position-2023" href="https://laravel-china.org/courses/laravel-shop/2023/ecommerce-advance">
+
+                11.2. 电商进阶课程
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1719" href="https://laravel-china.org/courses/laravel-shop/1719/the-next-step-of-learning">
+
+                11.3. 下一步学习建议
+            </a>
+
+
+
+
+
+            <a class="item  article-position-1720" href="https://laravel-china.org/courses/laravel-shop/1720/work-sharing-and-learning">
+
+                11.4. 作品分享和学习感悟
+            </a>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+<div class="ui basic teal  launch right attached fixed button" id="right-menu-btn">
+    <i class="content icon"></i>
+    <span class="text">Menu</span>
+</div>
+
+<div class="ui top menu sidebar stackable">
+    <a href="https://laravel-china.org/topics" class="item no-pjax" >社区</a>
+    <a href="https://laravel-china.org/docs" class="item no-pjax" >文档</a>
+    <a href="https://laravel-china.org/c/qa" class="item">问答</a>
+
+    <a href="https://laravel-china.org/c/php-jobs" class="item">工作</a>
+
+    <div class="ui fluid category search item">
+        <div class="ui icon input">
+            <input class="prompt" type="text" placeholder="">
+            <i class="search icon"></i>
+        </div>
+        <div class="results"></div>
+    </div>
+
+
+
+    <a class="ui item" href="https://laravel-china.org/courses/my/referrals">
+        <i class="icon gift"></i> 邀请好友
+    </a>
+
+    <a class="item" href="https://laravel-china.org/courses/histories" title="浏览历史">
+
+
+        <i class="ui icon history grey middle disabled"></i> 浏览历史
+    </a>
+
+    <a class="item" href="https://laravel-china.org/notifications/unread" title="消息通知">
+        <span class="ui basic circular label notification" id="notification-count">
+            0
+        </span>
+    </a>
+
+    <a href="https://laravel-china.org/users/27464" class="item">
+        <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/avatars/27464_1531796396.jpeg?imageView2/1/w/100/h/100"> &nbsp;
+        kuang
+    </a>
+
+    <a href="https://laravel-china.org/courses/my/coupons" class="item">
+        <i class="icon payment"></i>
+        卡券中心
+    </a>
+
+    <form id="logout-form" action="https://laravel-china.org/logout" method="POST" style="display: none;">
+        <input type="hidden" name="_token" value="jnnAHjhrMbBNf1Kel960taBKAkYKAg1Leg3OBJXW">
+    </form>
+</div>
+
+
+<div class="pusher">
+
+    <div class="main container">
+
+        <nav class="ui main borderless menu top stackable">
+            <div class="ui container">
+                <a href="/" class="navbar-brand" style="padding-left: 22px;display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;">
+                    <img src="https://lccdn.phphub.org/uploads/sites/hG5JuDSqZ7Y26Kuh0Qat8EYv6XNT0fGc.png" alt="Laravel China" style="width: 128px;
+margin-right: 22px;"/>
+                </a>
+
+                <a class="item header right menu " style="display:none">
+                    <i class="icon align justify"></i>
+                </a>
+
+                <a href="https://laravel-china.org/topics" class="item secondary">
+                    社区
+                </a>
+
+                <div class="ui simple item dropdown article stackable nav-user-item  secondary">
+                    分类  <i class="dropdown icon"></i>
+
+                    <div class="ui menu stackable">
+                        <a href="https://laravel-china.org/wikis" class="item">
+                            <i class="icon wikipedia"></i> 社区 Wiki
+                        </a>
+                        <a href="https://laravel-china.org/c/qa" class="item">
+                            <i class="icon question"></i> 技术问答
+                        </a>
+                        <a href="https://laravel-china.org/c/php-jobs" class="item">
+                            <i class="icon laptop"></i> 招聘求职
+                        </a>
+                        <a href="https://laravel-china.org/c/php-jobs" class="item">
+                            <i class="icon linkify"></i> 链接分享
+                        </a>
+                        <a tabindex="-1" href="https://laravel-china.org/c/tutorials" class="item">
+                            <i class="icon food"></i> 教程帖子
+                        </a>
+                        <a tabindex="-1" href="https://laravel-china.org/c/life" class="item">
+                            <i class="icon coffee"></i> 分享生活
+                        </a>
+                        <a tabindex="-1" href="https://laravel-china.org/c/announcement" class="item">
+                            <i class="icon bullhorn"></i> 社区公告
+                        </a>
+                        <a href="https://laravel-china.org/c/meetups" class="item">
+                            <i class="icon users"></i> 线下聚会
+                        </a>
+                        <a href="https://laravel-china.org/c/translations" class="item">
+                            <i class="icon translate"></i> 外文翻译
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ui simple item dropdown article stackable nav-user-item  secondary">
+                    教程  <i class="dropdown icon"></i>
+
+                    <div class="ui menu stackable">
+                        <a href="https://laravel-china.org/courses" class="item">
+                            <i class="icon home"></i> Laravel 实战教程首页
+                        </a>
+
+                        <a class="item" href="https://laravel-china.org/courses/laravel-essential-training-5.5" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://fsdhub.com/uploads/images/201704/28/1/O2sXyZ5ZH6.jpg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《L01 Laravel 教程 - Web 开发实战入门 ( Laravel 5.5 )》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/courses/laravel-intermediate-training-5.5" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://fsdhub.com/uploads/images/201709/18/1/nvXAaDu1iw.png?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《L02 Laravel 教程 - Web 开发实战进阶 ( Laravel 5.5 )》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/courses/laravel-advance-training-5.5" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://fsdhub.com/uploads/images/201711/15/1/fJ5iqgmd7D.jpg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《L03 Laravel 教程 - 实战构架 API 服务器》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/courses/laravel-weapp" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://laravel-china.org/uploads/images/201804/24/1/CbtnSs8Jnh.jpg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《L04 Laravel 教程 - 微信小程序从零到发布》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/courses/laravel-shop" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://laravel-china.org/uploads/images/201806/12/1/RAjQ5R8DAS.jpg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《L05 Laravel 教程 - 电商实战》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/courses/ecommerce-advance" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://laravel-china.org/uploads/images/201809/10/1/pO4ljQYtY2.jpg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《L06 Laravel 教程 - 电商进阶》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/courses/laravel-package" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201808/06/1/S5h9WvQSk4.png?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《Laravel / PHP 扩展包视频教程》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/courses/creating-package" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201807/23/1/NCEii0F1bc.png?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《PHP 扩展包实战教程 - 从入门到发布》
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ui simple item dropdown article stackable nav-user-item secondary">
+                    文档  <i class="dropdown icon"></i>
+
+                    <div class="ui menu stackable">
+                        <a href="https://laravel-china.org/docs" class="item">
+                            <i class="icon home"></i> 社区文档首页
+                        </a>
+
+                        <a class="item" href="https://laravel-china.org/docs/laravel/5.6" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201802/28/1/Jk8mC7SGI5.jpg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《Laravel 中文文档》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/laravel-specification/5.5" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201803/08/1/mIpeaUvQ7Y.jpeg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《 Laravel 项目开发规范》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/laravel-development-environment/5.5" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201801/24/1/rgMAkwm5JX.jpeg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《Laravel 开发环境部署》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/nova/1.0" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201808/24/1/bw0vrGlJAg.png?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《Laravel Nova 中文文档》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/composer/2018" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201807/25/1/609dfdzH95.png?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《Composer 中文文档》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/elasticsearch-php/6.0" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201807/06/1/DKBZsKgaDg.jpeg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《Elasticsearch-PHP 中文文档》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/lumen/5.6" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201806/26/1/YiQbmFYoaK.png?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《Lumen 中文文档》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/graphql-php" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201806/23/1/6ELjREkwOc.png?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《GraphQL PHP 中文文档》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/writing-docs" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201806/21/1/gH3fzveyW3.jpg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《社区文档撰写指南》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/forum-in-laravel-tdd" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201805/16/1/fYEVSxLSlI.png?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《TDD 构建 Laravel 论坛笔记》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/psr" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201804/26/1/wAkQEDuKQZ.jpg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《PHP PSR 标准规范》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/php-design-patterns/2018" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201803/19/1/lDtmqCGQJJ.jpeg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《PHP 设计模式全集》
+                        </a>
+                        <a class="item" href="https://laravel-china.org/docs/dingo-api/2.0.0" style="padding-right: 36px!important;">
+                            <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/images/201803/13/1/DCYvMliGXu.jpg?imageView2/1/w/200/h/200" style="width:20px;height:20px;">
+                            《Dingo API 中文文档》
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ui simple item dropdown article stackable nav-user-item secondary">
+                    开源 <i class="dropdown icon"></i>
+
+                    <div class="ui menu stackable">
+                        <a href="https://laravel-china.org/projects/filter/laravel-library" class="item">
+                            <i class="icon check"></i> Laravel 扩展排行榜
+                        </a>
+                        <a href="https://laravel-china.org/projects/filter/laravel-app?order=github_stars" class="item">
+                            <i class="icon leaf"></i> Laravel 应用排行榜
+                        </a>
+                        <a href="https://laravel-china.org/projects/filter/laravel" class="item">
+                            <i class="icon flag"></i> Laravel 开源排行榜
+                        </a>
+
+                        <a href="https://laravel-china.org/projects/filter/laravel-cn" class="item">
+                            <i class="icon" style="padding-left: 2px;">🇨🇳</i> Laravel 国产项目
+                        </a>
+
+                        <a href="https://laravel-china.org/projects/filter/laravel-top250" class="item">
+                            <i class="icon github alternate"></i> GitHub Laravel TOP 250
+                        </a>
+
+                        <a href="https://laravel-china.org/pages/improve-opensource-db" class="item">
+                            <i class="icon paint brush"></i> 参与改进开源知识库
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="ui fluid category search item secondary">
+                    <div class="ui icon input">
+                        <input class="prompt" type="text" placeholder="">
+                        <i class="search icon"></i>
+                    </div>
+                    <div class="results"></div>
+                </div>
+
+                <div class=" right menu stackable secondary">
+
+                    <a class="ui item" href="https://laravel-china.org/courses/my/referrals">
+                        <i class="icon gift"></i> 邀请好友
+                    </a>
+
+                    <a class="item" href="https://laravel-china.org/courses/histories" title="浏览历史">
+                        <i class="ui icon history grey middle disabled"></i>
+                    </a>
+
+                    <a class="item" href="https://laravel-china.org/notifications/unread" title="消息通知">
+            <span class="ui basic circular label notification" id="notification-count">
+                0
+            </span>
+                    </a>
+
+                    <div class="ui simple item dropdown article stackable nav-user-item">
+                        <img class="ui avatar image" src="https://lccdn.phphub.org/uploads/avatars/27464_1531796396.jpeg?imageView2/1/w/100/h/100"> &nbsp;
+
+                        kuang  <i class="dropdown icon"></i>
+
+                        <div class="ui menu stackable">
+
+
+
+                            <a href="https://laravel-china.org/users/27464" class="item">
+                                <i class="icon user"></i>
+                                个人中心
+                            </a>
+
+                            <a href="https://laravel-china.org/courses/my/coupons" class="item">
+                                <i class="icon payment"></i>
+                                卡券中心
+                            </a>
+
+
+                            <a href="https://laravel-china.org/users/27464/edit" class="item">
+                                <i class="icon settings"></i>
+                                编辑资料
+                            </a>
+
+                            <a  class="item" href="javascript:void(0)" data-url="https://laravel-china.org/logout" data-method="POST" data-prompt="您确定要退出登录吗？" title="退出登录">
+                                <i class="icon sign out"></i>
+                                退出
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+
+        <script type="text/javascript">
+            Config.search_type = 'category';
+        </script>
+
+
+        <div class="ui centered grid container stackable">
+
+            <div class="twelve wide column">
+
+
+                <div class="ui segment article-content">
+
+
+                    <div class="extra-padding">
+
+                        <h1>
+                            <i class="grey file text outline icon"></i>
+                            <span style="line-height: 34px;">7.1. 安装扩展包 yansongda/pay </span>
+
+
+                            <div class="pull-right">
+
+                                <div class="ui labeled button tiny">
+
+                                    <div class="ui compact button tiny kb-star basic " data-act="star" data-id="1567">
+
+                                        <i class="thumbs up icon"></i> <span class="state">点赞</span>
+                                    </div>
+                                    <a class="ui basic label star_count">14</a>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+                        </h1>
+
+                        <p class="book-article-meta">
+
+                            <a href="https://laravel-china.org/courses/laravel-shop"><i class="icon book"></i> L05 Laravel 教程 - 电商实战</a>
+
+                            <span class="divider">/</span>
+
+                            <span class="relative clicked-hide-guide">
+                        <a class="chapter-title user-has-done-btn" data-act="chapter_sidebar_clicked" href="javascript:void(0);"><i class="icon map signs"></i> 第七章. 支付模块</a>
+        </span>
+                        </p>
+
+
+
+
+                        <div class="ui divider"></div>
+
+                        <div class="ui readme markdown-body content-body">
+
+
+
+
+
+                            <p><img src="https://lccdn.phphub.org/uploads/images/201806/13/1/cF69b4gcAl.jpeg?imageView2/2/w/1240/h/0" alt="file" /></p>
+                            <h2>支付</h2>
+                            <p>上一章我们已经实现了订单的创建，接下来我们要实现支付功能，这也是电商系统的核心功能。</p>
+                            <h2>1. 引入支付库</h2>
+                            <p><code>yansongda/pay</code> 这个库封装了支付宝和微信支付的接口，通过这个库我们就不需要去关注不同支付平台的接口差异，使用相同的方法、参数来完成支付功能，节省开发时间。</p>
+                            <p>首先通过 <code>composer</code> 引入这个包：</p>
+                            <pre><code class=" language-php">$ composer require yansongda/pay</code></pre>
+                            <h2>2. 配置参数</h2>
+                            <p>我们创建一个新的配置文件来保存支付所需的参数：</p>
+                            <pre><code class=" language-php">$ touch config/pay.php</code></pre>
+                            <p><em>config/pay.php</em></p>
+                            <pre><code class=" language-php">&lt;?php
+
+return [
+    'alipay' =&gt; [
+        'app_id'         =&gt; '',
+        'ali_public_key' =&gt; '',
+        'private_key'    =&gt; '',
+        'log'            =&gt; [
+            'file' =&gt; storage_path('logs/alipay.log'),
+        ],
+    ],
+
+    'wechat' =&gt; [
+        'app_id'      =&gt; '',
+        'mch_id'      =&gt; '',
+        'key'         =&gt; '',
+        'cert_client' =&gt; '',
+        'cert_key'    =&gt; '',
+        'log'         =&gt; [
+            'file' =&gt; storage_path('logs/wechat_pay.log'),
+        ],
+    ],
+];</code></pre>
+                            <p>现在这些参数先留空，后面的章节我们再填入具体的值。</p>
+                            <h2>3. 容器</h2>
+                            <p>容器是现代 PHP 开发的一个重要概念，Laravel 就是在容器的基础上构建的。我们将支付操作类实例注入到容器中，在以后的代码里就可以直接通过 <code>app('alipay')</code> 来取得对应的实例，而不需要每次都重新创建。</p>
+                            <p>我们通常在 <code>AppServiceProvider</code> 的 <code>register()</code> 方法中往容器中注入实例：</p>
+                            <p><em>app/Providers/AppServiceProvider.php</em></p>
+                            <pre><code class=" language-php">use Monolog\Logger;
+use Yansongda\Pay\Pay;
+.
+.
+.
+    public function register()
+    {
+        // 往服务容器中注入一个名为 alipay 的单例对象
+        $this-&gt;app-&gt;singleton('alipay', function () {
+            $config = config('pay.alipay');
+            // 判断当前项目运行环境是否为线上环境
+            if (app()-&gt;environment() !== 'production') {
+                $config['mode']         = 'dev';
+                $config['log']['level'] = Logger::DEBUG;
+            } else {
+                $config['log']['level'] = Logger::WARNING;
+            }
+            // 调用 Yansongda\Pay 来创建一个支付宝支付对象
+            return Pay::alipay($config);
+        });
+
+        $this-&gt;app-&gt;singleton('wechat_pay', function () {
+            $config = config('pay.wechat');
+            if (app()-&gt;environment() !== 'production') {
+                $config['log']['level'] = Logger::DEBUG;
+            } else {
+                $config['log']['level'] = Logger::WARNING;
+            }
+            // 调用 Yansongda\Pay 来创建一个微信支付对象
+            return Pay::wechat($config);
+        });
+    }</code></pre>
+                            <p>代码解析：</p>
+                            <ul><li><code>$this-&gt;app-&gt;singleton()</code> 往服务容器中注入一个单例对象，第一次从容器中取对象时会调用回调函数来生成对应的对象并保存到容器中，之后再去取的时候直接将容器中的对象返回。</li>
+                                <li><code>app()-&gt;environment()</code> 获取当前运行的环境，线上环境会返回 <code>production</code>。对于支付宝，如果项目运行环境不是线上环境，则启用开发模式，并且将日志级别设置为 <code>DEBUG</code>。由于微信支付没有开发模式，所以仅仅将日志级别设置为 <code>DEBUG</code>。</li>
+                            </ul>
+
+                            <h2>4. 测试</h2>
+                            <p>接下来我们来测试一下刚刚注入到容器中的实例，进入 tinker：</p>
+                            <pre><code class=" language-php">$ php artisan tinker</code></pre>
+                            <p>然后分别输入 <code>app('alipay')</code> 和 <code>app('wechat_pay')</code></p>
+                            <pre><code class=" language-php">&gt;&gt;&gt; app('alipay')
+&gt;&gt;&gt; app('wechat_pay')</code></pre>
+                            <p><img src="https://lccdn.phphub.org/uploads/images/201806/04/5320/5fLw9s31VH.png?imageView2/2/w/1240/h/0" alt="file" /></p>
+                            <p>可以看到返回了 <code>Yansongda\Pay\Gateways\Alipay</code> 和 <code>Yansongda\Pay\Gateways\Wechat</code> 类型的对象，说明注入成功。</p>
+                            <h2>Git 代码版本控制</h2>
+                            <p>接着让我们将这些文件加入到版本控制中：</p>
+                            <pre><code class=" language-php">$ git add -A
+$ git commit -m "引入支付库"</code></pre>
+
+                            <p></p>
+                            <div style="position: absolute!important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px,1px,1px,1px);">本文章首发在 <a href="https://laravel-china.org/">Laravel China 社区</a></div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div>
+                    <a class="ui basic button small  pull-left popover " data-content="6.9. 小结" href="https://laravel-china.org/courses/laravel-shop/1714/summary"><i class="icon arrow left"></i> 上一篇</a>
+                    <a class="ui basic button small  pull-right popover " data-content="7.2. 集成支付宝" href="https://laravel-china.org/courses/laravel-shop/1549/alipay-to-pay">下一篇 <i class="icon arrow right"></i></a>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="ui message basic share-wrap">
+
+                    <div class="social-share"></div>
+
+                    <div class="pull-right" style="margin-top: 5px;">
+                        <span>
+
+                            <a class="ui button teal small basic" href="https://laravel-china.org/courses/articles/1567/patches/create"><i class="icon send"></i> 我要改进</a>
+                        </span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="ui message basic text-center voted-box">
+                    <div class="buttons">
+                        <div class="ui button kb-star-big basic teal  " data-act="star" data-id="1567"><i class="icon thumbs up"></i> <span class="state">点赞</span></div>
+                    </div>
+                    <div class="voted-users">
+                        <a href="https://laravel-china.org/users/24097">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/24097_1523243857.PNG?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/16448">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/16448_1495199405.png?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/9830">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/9830_1484187115.JPG?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/16439">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/16439_1495175693.jpeg?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/15778">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/15778_1514512380.png?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/4269">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/4269_1491979850.jpg?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/23635">
+                            <img class="ui image avatar image-33 stargazer" src="https://pythoncaffcdn.phphub.org/uploads/images/201801/03/1/CSBCkyd2E8.jpg?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/7354">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/7354_1530259808.jpg?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/14250">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/14250_1516768314.png?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/25844">
+                            <img class="ui image avatar image-33 stargazer" src="https://pythoncaffcdn.phphub.org/uploads/images/201801/03/1/LK3fRYxE15.jpg?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/18950">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/18950_1528442335.jpg?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/18227">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/18227_1520501866.jpg?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/24833">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/24833_1525003444.png?imageView2/1/w/100/h/100">
+                        </a>
+                        <a href="https://laravel-china.org/users/19854">
+                            <img class="ui image avatar image-33 stargazer" src="https://lccdn.phphub.org/uploads/avatars/19854_1530503327.png?imageView2/1/w/100/h/100">
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="ui threaded comments comment-list " name="topics-list" id="topics-list">
+
+                    <div class="ui divider horizontal grey"><i class="icon comments"></i> 讨论数量: 5</div>
+
+                    <a class="ui button green pull-left open-discussion" href="https://laravel-china.org/topics/create?book_id=41&amp;article_id=1567&amp;category_id=4" target="_blank">
+                        <i class="icon write"></i>
+                        发起讨论
+                    </a>
+
+
+                    <span>
+
+
+
+                                                       <button class="ui button green basic pull-right open-discussion user-has-done-btn" data-act="teaching_assistant_hint" id="apply-for-ta-btn">
+                                  <i class="icon student"></i>
+                                    申请助教
+                                </button>
+                                                              </span>
+
+                    <form id="apply-for-ta-form" action="https://laravel-china.org/courses/41/applyta" method="POST" style="display: none;">
+                        <input type="hidden" name="_token" value="jnnAHjhrMbBNf1Kel960taBKAkYKAg1Leg3OBJXW">
+                    </form>
+                    <br>
+                    <br>
+                    <br>
+
+
+                    <div class="comments-feed">
+
+
+                        <div class="comment comment-16940">
+                            <div id="comments-16940"></div>
+                            <a class="avatar" href="https://laravel-china.org/users/19751">
+                                <img src="https://lccdn.phphub.org/uploads/avatars/19751_1509610188.png?imageView2/1/w/100/h/100">
+                            </a>
+                            <div class="content">
+                                <div class="comment-header">
+                                    <div class="meta">
+                                        <a class="author" href="https://laravel-china.org/users/19751">clarkhe</a>
+                                        <div class="metadata">
+                                            <span class="date" title="2018-09-10 20:37:40">18小时前</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="reaction">
+                                        <div class="ui floating basic icon dropdown button">
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="text comment-body markdown-reply">
+                                    <a href="https://laravel-china.org/topics/16940" style="
+    font-size: 1.2em;
+    color: #6c7377;">
+
+
+                                        <i class="icon checkmark" style="color:#21ba45"></i>
+
+                                        请问下 paypal 使用哪个扩展包?
+
+
+                                    </a>
+
+
+                                    <div class="meta" style="
+    font-size: .9em;
+    color: #adadad;
+    margin-top: 16px;
+">
+
+                                        <i class="thumbs up icon" style="font-size:1em"></i> 0 个点赞 | <i class="talk icon"></i> 3  个回复 | <i class="folder icon"></i> 问答
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="comment comment-15798">
+                            <div id="comments-15798"></div>
+                            <a class="avatar" href="https://laravel-china.org/users/28614">
+                                <img src="https://pythoncaffcdn.phphub.org/uploads/images/201801/03/1/53yTn1mLOK.jpg?imageView2/1/w/100/h/100">
+                            </a>
+                            <div class="content">
+                                <div class="comment-header">
+                                    <div class="meta">
+                                        <a class="author" href="https://laravel-china.org/users/28614">cloud_w</a>
+                                        <div class="metadata">
+                                            <span class="date" title="2018-08-14 12:01:44">4周前</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="reaction">
+                                        <div class="ui floating basic icon dropdown button">
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="text comment-body markdown-reply">
+                                    <a href="https://laravel-china.org/topics/15798" style="
+    font-size: 1.2em;
+    color: #6c7377;">
+
+
+                                        <i class="icon checkmark" style="color:#21ba45"></i>
+
+                                        支付包扩展包疑问？
+
+
+                                    </a>
+
+
+                                    <div class="meta" style="
+    font-size: .9em;
+    color: #adadad;
+    margin-top: 16px;
+">
+
+                                        <i class="thumbs up icon" style="font-size:1em"></i> 0 个点赞 | <i class="talk icon"></i> 8  个回复 | <i class="folder icon"></i> 问答
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="comment comment-14338">
+                            <div id="comments-14338"></div>
+                            <a class="avatar" href="https://laravel-china.org/users/24352">
+                                <img src="https://pythoncaffcdn.phphub.org/uploads/images/201801/03/1/76NffsQ6Ul.jpg?imageView2/1/w/100/h/100">
+                            </a>
+                            <div class="content">
+                                <div class="comment-header">
+                                    <div class="meta">
+                                        <a class="author" href="https://laravel-china.org/users/24352">maolin</a>
+                                        <div class="metadata">
+                                            <span class="date" title="2018-07-12 22:18:44">1个月前</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="reaction">
+                                        <div class="ui floating basic icon dropdown button">
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="text comment-body markdown-reply">
+                                    <a href="https://laravel-china.org/topics/14338/developing-expansion-packs-can-be-used-to-learn-how-to-use-extended-packages" style="
+    font-size: 1.2em;
+    color: #6c7377;">
+
+
+                                        <i class="icon checkmark" style="color:#21ba45"></i>
+
+                                        开发用扩展包可以，学习用扩展包不太合适吧？
+
+
+                                    </a>
+
+
+                                    <div class="meta" style="
+    font-size: .9em;
+    color: #adadad;
+    margin-top: 16px;
+">
+
+                                        <i class="thumbs up icon" style="font-size:1em"></i> 0 个点赞 | <i class="talk icon"></i> 1  个回复 | <i class="folder icon"></i> 问答
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="comment comment-14029">
+                            <div id="comments-14029"></div>
+                            <a class="avatar" href="https://laravel-china.org/users/25995">
+                                <img src="https://lccdn.phphub.org/uploads/avatars/25995_1528269839.png?imageView2/1/w/100/h/100">
+                            </a>
+                            <div class="content">
+                                <div class="comment-header">
+                                    <div class="meta">
+                                        <a class="author" href="https://laravel-china.org/users/25995">xiaocao</a>
+                                        <div class="metadata">
+                                            <span class="date" title="2018-07-05 15:13:48">2个月前</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="reaction">
+                                        <div class="ui floating basic icon dropdown button">
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="text comment-body markdown-reply">
+                                    <a href="https://laravel-china.org/topics/14029/why-not-use-a-package-customized-for-laravel" style="
+    font-size: 1.2em;
+    color: #6c7377;">
+
+
+                                        <i class="icon checkmark" style="color:#21ba45"></i>
+
+                                        为什么不是使用为 Laravel 定制的包？
+
+
+                                    </a>
+
+
+                                    <div class="meta" style="
+    font-size: .9em;
+    color: #adadad;
+    margin-top: 16px;
+">
+
+                                        <i class="thumbs up icon" style="font-size:1em"></i> 0 个点赞 | <i class="talk icon"></i> 1  个回复 | <i class="folder icon"></i> 问答
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="comment comment-13782">
+                            <div id="comments-13782"></div>
+                            <a class="avatar" href="https://laravel-china.org/users/12861">
+                                <img src="https://lccdn.phphub.org/uploads/avatars/12861_1516844121.jpg?imageView2/1/w/100/h/100">
+                            </a>
+                            <div class="content">
+                                <div class="comment-header">
+                                    <div class="meta">
+                                        <a class="author" href="https://laravel-china.org/users/12861">AmberLavigne</a>
+                                        <div class="metadata">
+                                            <span class="date" title="2018-06-28 20:11:24">2个月前</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="reaction">
+                                        <div class="ui floating basic icon dropdown button">
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="text comment-body markdown-reply">
+                                    <a href="https://laravel-china.org/topics/13782/is-there-an-integrated-extension-package-for-foreign-payments" style="
+    font-size: 1.2em;
+    color: #6c7377;">
+
+
+                                        <i class="icon checkmark" style="color:#21ba45"></i>
+
+                                        有沒有國外支付的集成擴展包？
+
+
+                                    </a>
+
+
+                                    <div class="meta" style="
+    font-size: .9em;
+    color: #adadad;
+    margin-top: 16px;
+">
+
+                                        <i class="thumbs up icon" style="font-size:1em"></i> 0 个点赞 | <i class="talk icon"></i> 2  个回复 | <i class="folder icon"></i> 问答
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="four wide column">
+                <div class="item header"
+                >
+
+                    <div class="ui segment orange text-center" style="padding: 25px;">
+                        刻意练习，每日精进。
+                    </div>
+
+
+
+
+                    <div class="ui segment">
+                        <div class="two ui basic buttons small">
+                            <a class="ui labeled icon basic button left attached popover " data-content="6.9. 小结" href="https://laravel-china.org/courses/laravel-shop/1714/summary">
+                                <i class="left arrow icon"></i>
+                                上一篇
+                            </a>
+                            <a class="ui right labeled icon basic button right attached popover"  data-content="7.2. 集成支付宝" href="https://laravel-china.org/courses/laravel-shop/1549/alipay-to-pay">
+                                <i class="right arrow icon"></i>
+                                下一篇
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="ui segment">
+
+                        <div class="ui three statistics">
+                            <div class="ui huge statistic">
+                                <div class="value">14 </div>
+                                <div class="label">点赞</div>
+                            </div>
+                            <div class="ui huge statistic">
+                                <div class="value">1849 </div>
+                                <div class="label">浏览</div>
+                            </div>
+                            <a class="ui huge statistic" href="#topics-list">
+                                <div class="value">5 </div>
+                                <div class="label">讨论</div>
+                            </a>
+                        </div>
+
+                        <br>
+                    </div>
+
+                </div>
+
+                <div class="ui stackable cards">
+                    <div class="ui  card column author-box grid authors-box" style="margin-top: 20px;">
+
+                        <div class="ui fluid" style="margin-top: 20px;">
+                            <div class="ui teal ribbon label"><i class="star icon"></i> 作者</div>
+                        </div>
+
+                        <a href="https://laravel-china.org/users/5320" class="avatar-link authors first">
+                            <img class="ui centered circular tiny image " src="https://lccdn.phphub.org/uploads/avatars/5320_1470791886.jpeg?imageView2/1/w/200/h/200" /> <span class="author-name">leo</span>
+                        </a>
+                        <div class="ui divider"></div>
+                        <a href="https://laravel-china.org/users/1" class="avatar-link authors last">
+                            <img class="ui centered circular tiny image " src="https://lccdn.phphub.org/uploads/avatars/1_1530614766.png?imageView2/1/w/200/h/200" /> <span class="author-name">Summer</span>
+                        </a>
+
+                    </div>                <div class="ui card">
+                    <div class="content">
+                        <div class="header recommended"><i class="icon star yellow"></i> 每周视频推荐</div>
+                    </div>
+                    <div class="content">
+                        <div class="pull-left" style="color:#a5a3a3;font-wight:bold" >
+                            <a href="https://laravel-china.org/courses/laravel-package/1975/optimization-of-cli-error-hints-nunomadurocollision"><img class="small ui image" src="https://lccdn.phphub.org/uploads/images/201808/09/1/fh3NlAlE26.png" style=" margin-top: 4px;width:48px;height:48px;"></a>
+                        </div>
+
+                        <div style="padding-left: 58px;margin-top: 9px;font-weight: bold;">
+                            <a style="font-size: 15px;color: #949292;" href="https://laravel-china.org/courses/laravel-package/1975/optimization-of-cli-error-hints-nunomadurocollision">026. 优化 Cli 错误提示——nunomaduro/collision</a>
+                        </div>
+                    </div>
+
+                    <div class="extra content">
+            <span class="left floated like">
+              1天前 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 时长：04:41
+            </span>
+                        <span class="right floated star">
+              <i class="thumbs up icon"></i> 7
+            </span>
+                    </div>
+                </div>
+                </div>
+
+                <div class="ui sticky toc" style="padding-top:20px">
+                    <div class="ui  card column author-box grid "  id="toc">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <a class="circular ui icon button fixed feedback popover" data-content="建议与反馈 @Summer" data-position="left center"
+       href="https://laravel-china.org/contact"
+    >
+        <i class="icon talk outline"></i>
+    </a>
+
+    <div class="ui inverted vertical footer segment">
+        <div class="ui center aligned container">
+            <div class="ui stackable inverted divided grid">
+                <div class="four wide column">
+                    <h4 class="ui inverted header">兄弟社区</h4>
+                    <div class="ui inverted link list">
+                        <a href="https://pythoncaff.com/" title="PythonCaff.com" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/OUIFt1e7rhv9QM5i8yhR.png" class="popover-with-html" data-content="PythonCaff.com" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            PythonCaff.com
+                        </a>
+                        <a href="https://golangcaff.com/" title="GolangCaff.com" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/b3bMELMxl8nVVD1RR6Re.png" class="popover-with-html" data-content="GolangCaff.com" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            GolangCaff.com
+                        </a>
+                        <a href="https://vuejscaff.com/" title="VuejsCaff.com" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/86pNOiq6eFtxXnB2czG9.png" class="popover-with-html" data-content="VuejsCaff.com" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            VuejsCaff.com
+                        </a>
+                        <a href="https://ioscaff.com/" title="iOSCaff.com" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/yJFd8QMFnPuPDLi3UFLZ.png" class="popover-with-html" data-content="iOSCaff.com" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            iOSCaff.com
+                        </a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header">资源推荐</h4>
+                    <div class="ui inverted link list">
+                        <a href="https://laravel-china.org/topics/2530/the-highest-amount-of-downloads-of-the-100-laravel-extensions-recommended" title="Laravel 扩展 Top100" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/i8eVQdOiRqfK5uOEjULq.png" class="popover-with-html" data-content="Laravel 扩展 Top100" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            Laravel 扩展 Top100
+                        </a>
+                        <a href="https://laravel-china.org/docs/laravel-specification" title="Laravel 开发规范" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/slO0QIXjwi1Qmz8PIrgc.png" class="popover-with-html" data-content="Laravel 开发规范" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            Laravel 开发规范
+                        </a>
+                        <a href="https://laravel-china.org/topics/7227/laravel-introductory-guide" title="Laravel 新手入门指南" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/ranAAzKyvJdx1Cpj0LKH.png" class="popover-with-html" data-content="Laravel 新手入门指南" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            Laravel 新手入门指南
+                        </a>
+                        <a href="https://laravel-china.org/categories/1" title="Laravel / PHP 工作" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/vCE4hPLqVg9bBYnPYkZJ.png" class="popover-with-html" data-content="Laravel / PHP 工作" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            Laravel / PHP 工作
+                        </a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header">资源推荐</h4>
+                    <div class="ui inverted link list">
+                        <a href="https://laravel-china.org/docs/laravel" title="Laravel 中文文档" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/ql9XtosRhTe4v8HVC3TV.jpg" class="popover-with-html" data-content="Laravel 中文文档" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            Laravel 中文文档
+                        </a>
+                        <a href="https://cs.laravel-china.org/" title="Laravel 速查表" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/iYDrl7GRlaDoCZqfLO1Q.png" class="popover-with-html" data-content="Laravel 速查表" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            Laravel 速查表
+                        </a>
+                        <a href="https://laravel-china.github.io/php-the-right-way/" title="《PHP 之道》" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/vA50AYuscu2RCMowq7ee.png" class="popover-with-html" data-content="《PHP 之道》" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            《PHP 之道》
+                        </a>
+                        <a href="https://laravel-china.org/composer" title="Composer 中文镜像" class="item" target="_blank" style="    line-height: 28px;">
+                            <img src="https://lccdn.phphub.org/uploads/banners/KltcLb6leMa12dvTAxD7.png" class="popover-with-html" data-content="Composer 中文镜像" style="width: 20px;margin-bottom: -4px;margin-right: 3px;display: inline-block;">
+                            Composer 中文镜像
+                        </a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header">其他信息</h4>
+                    <div class="ui inverted link list">
+
+                        <li><a class="item" href="https://laravel-china.org/contact"><i class="icon suitcase" aria-hidden="true"></i> 商务合作</a></li>
+                        <li><a class="item" href="https://laravel-china.org/contact"><i class="icon wechat" aria-hidden="true"></i> 联系站长</a></li>
+                        <li><a class="item" href="https://laravel-china.org/sites"><i class="icon thumbs up text-md"></i> 推荐网站</a></li>
+
+                        <li><a class="item" href="https://laravel-china.org/issues"><i class="icon mail outline"></i> PHP / Laravel 月刊</a></li>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="ui inverted section divider"></div>
+            <div>
+
+                <p style="font-size:0.9em; margin-top:20px;margin-bottom: -8px;color: rgb(137, 137, 140);" class="ui inverted signature">
+                    由 <a href="https://laravel-china.org/contact" target="_blank" style="color: inherit;">Summer</a> 设计和编码 <span style="color: #e27575;font-size: 14px;">❤</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Scripts -->
+<script src="https://lccdn.phphub.org//build/js/b15f71826538160df053-app.js"></script>
+
+<script>
+    $(document).ready(function()
+    {
+        $('.user-has-done-btn').api({
+            method : 'POST',
+            url: 'https://laravel-china.org/courses/has_done/{act}',
+            data: {
+                '_token': Config.token
+            },
+        });
+    });
+</script>
+
+<script>
+    ga('create', 'UA-53903425-6', 'auto');
+    ga('send', 'pageview');
+</script>
+
+<script>
+    // Baidu link submit
+    (function(){
+        if(typeof is_private_view_only === "undefined"){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        }
+    })();
+</script>
+
+
+
+
+<script>
+    $(document).ready(function()
+    {
+        function changeStarState(that) {
+            if (that.data('act') == 'star') {
+                that.data('act', 'unstar');
+                that.find('.state').text('已点赞');
+            } else {
+                that.data('act', 'star');
+                that.find('.state').text('点赞');
+            }
+        }
+
+        $('.kb-star-big.button').api({
+            method : 'POST',
+            url: 'https://laravel-china.org/courses/articles/{id}/{act}',
+            data: {
+                '_token': Config.token
+            },
+            onSuccess: function(response) {
+                $('a.star_count').text(response.count);
+            }
+        }).state({
+            onActivate: function() {
+                changeStarState($('.kb-star.button'));
+                changeStarState($(this));
+                $('.kb-star-big.button').toggleClass('teal');
+            },
+            onDeactivate: function() {
+                changeStarState($('.kb-star.button'));
+                changeStarState($(this));
+                $('.kb-star-big.button').toggleClass('teal');
+            }
+        });
+
+        function changeWatchState(that) {
+            if (that.data('act') == 'watch') {
+                that.data('act', 'unwatch');
+                that.find('.state').text('已关注');
+            } else {
+                that.data('act', 'watch');
+                that.find('.state').text('关注');
+            }
+            // that.find('.eye.icon').toggleClass('yellow');
+        }
+
+        $('.kb-watch.button').api({
+            method : 'POST',
+            url: 'https://laravel-china.org/courses/articles/{id}/{act}',
+            data: {
+                '_token': Config.token
+            },
+            onSuccess: function(response) {
+                $('a.watch_count').text(response.count);
+            }
+        }).state({
+            onActivate: function() {
+                changeWatchState($(this));
+            },
+            onDeactivate: function() {
+                changeWatchState($(this));
+            }
+        });
+
+        var lastScrollTop = 0;
+        window.addEventListener("scroll", function(){
+            var st = window.pageYOffset || document.documentElement.scrollTop;
+            if (st > lastScrollTop){
+                document.getElementById("right-menu-btn").style.left = "-100%";
+            } else {
+                document.getElementById("right-menu-btn").style.left = "0";
+            }
+            lastScrollTop = st;
+        }, false);
+
+        $('#apply-for-ta-btn').click(function(event) {
+            swal({
+                title: "",
+                html: '你正在申请成为本课程的『见习助教』，助教的主要任务是解答同学们的提问，当有新问题提交时，系统会第一时间通知你。『解答提问』可以提高你的技术能力，锻炼你的问题解决能力，也可以提高你的影响力。满足以下条件后可晋升为 <a href="/roles/TeachingAssistant" target="_blank">『金牌助教』</a> 用户身份。 <hr style="background: #fff;display: block;height: 1px;border: 0;border-top: 1px solid #d4d4d4;margin: 1em 0;padding: 0;"><div style="text-align:left;"><ol><li>5 个以上『选中答案』；</li><li>所有回复获得过 10 个以上点赞；</li><li>一个月内不回答问题将视为放弃，会自动取消『见习助教』身份，并不再接收到『新问题』的消息通知。</li></ol></div>',
+                type: "warning",
+                // input: 'checkbox',
+                showCancelButton: true,
+                cancelButtonText: "取消",
+                confirmButtonText: "申请加入"
+            }).then(function(){
+                $('#apply-for-ta-form').submit();
+            }).catch(swal.noop);
+        });
+
+        $('#cancel-for-ta-btn').click(function(event) {
+            swal({
+                title: "",
+                html: '您要取消『见习助教』的身份吗？取消后将不再接收到课程问题通知。',
+                type: "warning",
+                // input: 'checkbox',
+                showCancelButton: true,
+                cancelButtonText: "取消",
+                confirmButtonText: "取消申请"
+            }).then(function(){
+                $('#apply-for-ta-form').submit();
+            }).catch(swal.noop);
+        });
+
+    });
+</script>
+
+
+<script>
+
+    $(document).ready(function()
+    {
+        function changeStarState(that) {
+            if (that.data('act') == 'star') {
+                that.data('act', 'unstar');
+                that.find('.state').text('已点赞');
+            } else {
+                that.data('act', 'star');
+                that.find('.state').text('点赞');
+            }
+        }
+        $('.kb-star.button').api({
+            method : 'POST',
+            url: 'https://laravel-china.org/courses/articles/{id}/{act}',
+            data: {
+                '_token': Config.token
+            },
+            onSuccess: function(response) {
+                $('a.star_count').text(response.count);
+
+            }
+        }).state({
+            onActivate: function() {
+                changeStarState($(this));
+                changeStarState($('.kb-star-big.button'));
+            },
+            onDeactivate: function() {
+                changeStarState($(this));
+                changeStarState($('.kb-star-big.button'));
+            }
+        });
+
+    });
+
+
+</script>
+
+</body>
+</html>
